@@ -9,13 +9,15 @@ use crate::{
     change_detection::{MutUntyped, Ticks, TicksMut},
     component::{ComponentId, ComponentTicks, Components, StorageType, Tick, TickCells},
     entity::{Entities, Entity, EntityLocation},
-    observer::Observers,
     prelude::Component,
     removal_detection::RemovedComponentEvents,
     storage::{Column, ComponentSparseSet, Storages},
     system::{Res, Resource},
     world::RawCommandQueue,
 };
+#[cfg(feature = "observers")]
+use crate::observer::Observers;
+
 use bevy_ptr::Ptr;
 use std::{any::TypeId, cell::UnsafeCell, fmt::Debug, marker::PhantomData, ptr};
 
@@ -233,6 +235,7 @@ impl<'w> UnsafeWorldCell<'w> {
     }
 
     /// Retrieves this world's [`Observers`] collection.
+    #[cfg(feature = "observers")]
     pub(crate) unsafe fn observers(self) -> &'w Observers {
         // SAFETY:
         // - we only access world metadata

@@ -6,12 +6,14 @@ use crate::{
     component::ComponentId,
     entity::Entity,
     event::{Event, EventId, Events, SendBatchIds},
-    observer::{Observers, TriggerTargets},
     prelude::{Component, QueryState},
     query::{QueryData, QueryFilter},
     system::{Commands, Query, Resource},
     traversal::Traversal,
 };
+
+#[cfg(feature = "observers")]
+use crate::observer::{Observers, TriggerTargets};
 
 use super::{
     unsafe_world_cell::{UnsafeEntityCell, UnsafeWorldCell},
@@ -365,6 +367,7 @@ impl<'w> DeferredWorld<'w> {
     ///
     /// # Safety
     /// Caller must ensure observers listening for `event` can accept ZST pointers
+    #[cfg(feature = "observers")]
     #[inline]
     pub(crate) unsafe fn trigger_observers(
         &mut self,
@@ -386,6 +389,7 @@ impl<'w> DeferredWorld<'w> {
     ///
     /// # Safety
     /// Caller must ensure `E` is accessible as the type represented by `event`
+    #[cfg(feature = "observers")]
     #[inline]
     pub(crate) unsafe fn trigger_observers_with_data<E, C>(
         &mut self,
@@ -418,11 +422,13 @@ impl<'w> DeferredWorld<'w> {
     }
 
     /// Sends a "global" [`Trigger`](crate::observer::Trigger) without any targets.
+    #[cfg(feature = "observers")]
     pub fn trigger<T: Event>(&mut self, trigger: impl Event) {
         self.commands().trigger(trigger);
     }
 
     /// Sends a [`Trigger`](crate::observer::Trigger) with the given `targets`.
+    #[cfg(feature = "observers")]
     pub fn trigger_targets(
         &mut self,
         trigger: impl Event,

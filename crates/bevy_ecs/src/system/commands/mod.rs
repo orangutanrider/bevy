@@ -1,17 +1,26 @@
 mod parallel_scope;
 
-use super::{Deferred, IntoObserverSystem, IntoSystem, RegisterSystem, Resource};
+use super::{Deferred, IntoSystem, RegisterSystem, Resource};
+
+#[cfg(feature = "observers")]
+use super::IntoObserverSystem;
+
 use crate::{
     self as bevy_ecs,
     bundle::Bundle,
     component::{ComponentId, ComponentInfo},
     entity::{Entities, Entity},
     event::Event,
-    observer::{Observer, TriggerEvent, TriggerTargets},
     system::{RunSystemWithInput, SystemId},
     world::command_queue::RawCommandQueue,
     world::{Command, CommandQueue, EntityWorldMut, FromWorld, World},
 };
+
+#[cfg(feature = "observers")]
+use crate::observer::{
+    Observer, TriggerEvent, TriggerTargets
+};
+
 use bevy_ptr::OwningPtr;
 use bevy_utils::tracing::{error, info};
 pub use parallel_scope::*;
@@ -752,6 +761,7 @@ impl<'w, 's> Commands<'w, 's> {
     /// isn't scoped to specific targets.
     ///
     /// [`Trigger`]: crate::observer::Trigger
+    #[cfg(feature = "observers")]
     pub fn trigger(&mut self, event: impl Event) {
         self.add(TriggerEvent { event, targets: () });
     }
@@ -760,6 +770,7 @@ impl<'w, 's> Commands<'w, 's> {
     /// watches those targets.
     ///
     /// [`Trigger`]: crate::observer::Trigger
+    #[cfg(feature = "observers")]
     pub fn trigger_targets(
         &mut self,
         event: impl Event,
@@ -769,6 +780,7 @@ impl<'w, 's> Commands<'w, 's> {
     }
 
     /// Spawn an [`Observer`] and returns the [`EntityCommands`] associated with the entity that stores the observer.  
+    #[cfg(feature = "observers")]
     pub fn observe<E: Event, B: Bundle, M>(
         &mut self,
         observer: impl IntoObserverSystem<E, B, M>,
@@ -1197,6 +1209,7 @@ impl EntityCommands<'_> {
     }
 
     /// Creates an [`Observer`] listening for a trigger of type `T` that targets this entity.
+    #[cfg(feature = "observers")]
     pub fn observe<E: Event, B: Bundle, M>(
         &mut self,
         system: impl IntoObserverSystem<E, B, M>,
@@ -1388,6 +1401,7 @@ fn log_components(entity: Entity, world: &mut World) {
     info!("Entity {entity}: {debug_infos:?}");
 }
 
+#[cfg(feature = "observers")]
 fn observe<E: Event, B: Bundle, M>(
     observer: impl IntoObserverSystem<E, B, M>,
 ) -> impl EntityCommand {

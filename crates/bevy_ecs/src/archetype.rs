@@ -23,9 +23,11 @@ use crate::{
     bundle::BundleId,
     component::{ComponentId, Components, StorageType},
     entity::{Entity, EntityLocation},
-    observer::Observers,
     storage::{ImmutableSparseSet, SparseArray, SparseSet, SparseSetIndex, TableId, TableRow},
 };
+#[cfg(feature = "observers")]
+use crate::observer::Observers;
+
 use std::{
     hash::Hash,
     ops::{Index, IndexMut, RangeFrom},
@@ -347,6 +349,7 @@ pub struct Archetype {
 impl Archetype {
     pub(crate) fn new(
         components: &Components,
+        #[cfg(feature = "observers")]
         observers: &Observers,
         id: ArchetypeId,
         table_id: TableId,
@@ -361,6 +364,7 @@ impl Archetype {
             // SAFETY: We are creating an archetype that includes this component so it must exist
             let info = unsafe { components.get_info_unchecked(component_id) };
             info.update_archetype_flags(&mut flags);
+            #[cfg(feature = "observers")]
             observers.update_archetype_flags(component_id, &mut flags);
             archetype_components.insert(
                 component_id,
@@ -375,6 +379,7 @@ impl Archetype {
             // SAFETY: We are creating an archetype that includes this component so it must exist
             let info = unsafe { components.get_info_unchecked(component_id) };
             info.update_archetype_flags(&mut flags);
+            #[cfg(feature = "observers")]
             observers.update_archetype_flags(component_id, &mut flags);
             archetype_components.insert(
                 component_id,
@@ -734,6 +739,7 @@ impl Archetypes {
         unsafe {
             archetypes.get_id_or_insert(
                 &Components::default(),
+                #[cfg(feature = "observers")]
                 &Observers::default(),
                 TableId::empty(),
                 Vec::new(),
@@ -836,6 +842,7 @@ impl Archetypes {
     pub(crate) unsafe fn get_id_or_insert(
         &mut self,
         components: &Components,
+        #[cfg(feature = "observers")]
         observers: &Observers,
         table_id: TableId,
         table_components: Vec<ComponentId>,
@@ -870,6 +877,7 @@ impl Archetypes {
 
                 archetypes.push(Archetype::new(
                     components,
+                    #[cfg(feature = "observers")]
                     observers,
                     id,
                     table_id,

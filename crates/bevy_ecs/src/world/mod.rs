@@ -35,7 +35,6 @@ use crate::{
     },
     entity::{AllocAtWithoutReplacement, Entities, Entity, EntityHashSet, EntityLocation},
     event::{Event, EventId, Events, SendBatchIds},
-    observer::Observers,
     query::{DebugCheckedUnwrap, QueryData, QueryEntityError, QueryFilter, QueryState},
     removal_detection::RemovedComponentEvents,
     schedule::{Schedule, ScheduleLabel, Schedules},
@@ -44,6 +43,8 @@ use crate::{
     world::command_queue::RawCommandQueue,
     world::error::TryRunScheduleError,
 };
+#[cfg(feature = "observers")]
+use crate::observer::Observers;
 use bevy_ptr::{OwningPtr, Ptr};
 use bevy_utils::tracing::warn;
 use std::{
@@ -116,6 +117,7 @@ pub struct World {
     pub(crate) archetypes: Archetypes,
     pub(crate) storages: Storages,
     pub(crate) bundles: Bundles,
+    #[cfg(feature = "observers")]
     pub(crate) observers: Observers,
     pub(crate) removed_components: RemovedComponentEvents,
     pub(crate) change_tick: AtomicU32,
@@ -134,6 +136,7 @@ impl Default for World {
             archetypes: Archetypes::new(),
             storages: Default::default(),
             bundles: Default::default(),
+            #[cfg(feature = "observers")]
             observers: Observers::default(),
             removed_components: Default::default(),
             // Default value is `1`, and `last_change_tick`s default to `0`, such that changes
