@@ -351,6 +351,9 @@ bevy_state = ["bevy_internal/bevy_state"]
 # Enable function reflection
 reflect_functions = ["bevy_internal/reflect_functions"]
 
+# Enables ECS observers
+ecs_observers = ["bevy_internal/ecs_observers"]
+
 [dependencies]
 bevy_internal = { path = "crates/bevy_internal", version = "0.15.0-dev", default-features = false }
 
