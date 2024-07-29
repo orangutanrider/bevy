@@ -6,10 +6,12 @@ pub use bevy_derive::AppLabel;
 use bevy_ecs::{
     event::{event_update_system, EventCursor},
     intern::Interned,
+    system::SystemId,
     prelude::*,
     schedule::{ScheduleBuildSettings, ScheduleLabel},
-    system::{IntoObserverSystem, SystemId},
 };
+#[cfg(feature = "ecs_observers")]
+use bevy_ecs::system::IntoObserverSystem;
 #[cfg(feature = "trace")]
 use bevy_utils::tracing::info_span;
 use bevy_utils::{tracing::debug, HashMap};
@@ -836,6 +838,7 @@ impl App {
     }
 
     /// Spawns an [`Observer`] entity, which will watch for and respond to the given event.
+    #[cfg(feature = "ecs_observers")]
     pub fn observe<E: Event, B: Bundle, M>(
         &mut self,
         observer: impl IntoObserverSystem<E, B, M>,
