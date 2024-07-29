@@ -2567,6 +2567,7 @@ wasm = false
 name = "observers"
 path = "examples/ecs/observers.rs"
 doc-scrape-examples = true
+required-features = ["ecs_observers"]
 
 [package.metadata.example.observers]
 name = "Observers"
@@ -2578,6 +2579,7 @@ wasm = true
 name = "observer_propagation"
 path = "examples/ecs/observer_propagation.rs"
 doc-scrape-examples = true
+required-features = ["ecs_observers"]
 
 [package.metadata.example.observer_propagation]
 name = "Observer Propagation"
