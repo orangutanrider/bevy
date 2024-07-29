@@ -199,7 +199,7 @@ bevy_state = ["dep:bevy_state"]
 reflect_functions = ["bevy_reflect/functions"]
 
 # Enable ECS observers
-ecs_observers = ["bevy_ecs/observers"]
+ecs_observers = ["bevy_ecs/observers", "bevy_app/ecs_observers"]
 
 [dependencies]
 # bevy
