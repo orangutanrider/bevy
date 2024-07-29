@@ -4,7 +4,6 @@ use crate::{
     change_detection::MutUntyped,
     component::{Component, ComponentId, ComponentTicks, Components, StorageType},
     entity::{Entities, Entity, EntityLocation},
-    event::Event,
     query::Access,
     removal_detection::RemovedComponentEvents,
     storage::Storages,
@@ -12,14 +11,16 @@ use crate::{
 };
 #[cfg(feature = "observers")]
 use crate::{
+    event::Event,
     system::IntoObserverSystem,
     observer::{Observer, Observers},
+    world::{ON_REMOVE, ON_REPLACE}
 };
 use bevy_ptr::{OwningPtr, Ptr};
 use std::{any::TypeId, marker::PhantomData};
 use thiserror::Error;
 
-use super::{unsafe_world_cell::UnsafeEntityCell, Ref, ON_REMOVE, ON_REPLACE};
+use super::{unsafe_world_cell::UnsafeEntityCell, Ref};
 
 /// A read-only reference to a particular [`Entity`] and all of its components.
 ///

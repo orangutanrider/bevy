@@ -9,11 +9,13 @@ use crate::{
     prelude::{Component, QueryState},
     query::{QueryData, QueryFilter},
     system::{Commands, Query, Resource},
-    traversal::Traversal,
 };
 
 #[cfg(feature = "observers")]
-use crate::observer::{Observers, TriggerTargets};
+use crate::{
+    observer::{Observers, TriggerTargets},
+    traversal::Traversal
+};
 
 use super::{
     unsafe_world_cell::{UnsafeEntityCell, UnsafeWorldCell},

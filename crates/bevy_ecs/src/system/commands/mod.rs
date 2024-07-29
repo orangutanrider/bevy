@@ -10,15 +10,15 @@ use crate::{
     bundle::Bundle,
     component::{ComponentId, ComponentInfo},
     entity::{Entities, Entity},
-    event::Event,
     system::{RunSystemWithInput, SystemId},
     world::command_queue::RawCommandQueue,
     world::{Command, CommandQueue, EntityWorldMut, FromWorld, World},
 };
 
 #[cfg(feature = "observers")]
-use crate::observer::{
-    Observer, TriggerEvent, TriggerTargets
+use crate::{
+    event::Event,
+    observer::{Observer, TriggerEvent, TriggerTargets},
 };
 
 use bevy_ptr::OwningPtr;

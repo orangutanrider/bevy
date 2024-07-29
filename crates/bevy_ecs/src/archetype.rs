@@ -324,9 +324,14 @@ bitflags::bitflags! {
         const ON_INSERT_HOOK = (1 << 1);
         const ON_REPLACE_HOOK = (1 << 2);
         const ON_REMOVE_HOOK = (1 << 3);
+
+        #[cfg(feature = "observers")]
         const ON_ADD_OBSERVER = (1 << 4);
+        #[cfg(feature = "observers")]
         const ON_INSERT_OBSERVER = (1 << 5);
+        #[cfg(feature = "observers")]
         const ON_REPLACE_OBSERVER = (1 << 6);
+        #[cfg(feature = "observers")]
         const ON_REMOVE_OBSERVER = (1 << 7);
     }
 }
@@ -625,6 +630,7 @@ impl Archetype {
     /// Returns true if any of the components in this archetype have at least one [`OnAdd`] observer
     ///
     /// [`OnAdd`]: crate::world::OnAdd
+    #[cfg(feature = "observers")]
     #[inline]
     pub fn has_add_observer(&self) -> bool {
         self.flags().contains(ArchetypeFlags::ON_ADD_OBSERVER)
@@ -633,6 +639,7 @@ impl Archetype {
     /// Returns true if any of the components in this archetype have at least one [`OnInsert`] observer
     ///
     /// [`OnInsert`]: crate::world::OnInsert
+    #[cfg(feature = "observers")]
     #[inline]
     pub fn has_insert_observer(&self) -> bool {
         self.flags().contains(ArchetypeFlags::ON_INSERT_OBSERVER)
@@ -641,6 +648,7 @@ impl Archetype {
     /// Returns true if any of the components in this archetype have at least one [`OnReplace`] observer
     ///
     /// [`OnReplace`]: crate::world::OnReplace
+    #[cfg(feature = "observers")]
     #[inline]
     pub fn has_replace_observer(&self) -> bool {
         self.flags().contains(ArchetypeFlags::ON_REPLACE_OBSERVER)
@@ -649,6 +657,7 @@ impl Archetype {
     /// Returns true if any of the components in this archetype have at least one [`OnRemove`] observer
     ///
     /// [`OnRemove`]: crate::world::OnRemove
+    #[cfg(feature = "observers")]
     #[inline]
     pub fn has_remove_observer(&self) -> bool {
         self.flags().contains(ArchetypeFlags::ON_REMOVE_OBSERVER)
@@ -908,6 +917,7 @@ impl Archetypes {
         }
     }
 
+    #[cfg(feature = "observers")]
     pub(crate) fn update_flags(
         &mut self,
         component_id: ComponentId,

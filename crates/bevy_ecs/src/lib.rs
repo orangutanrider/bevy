@@ -1753,12 +1753,15 @@ mod tests {
     #[derive(Component)]
     struct ComponentB(u32);
 
+    #[allow(dead_code)]
     #[derive(Bundle)]
     struct Simple(ComponentA);
 
+    #[allow(dead_code)]
     #[derive(Bundle)]
     struct Tuple(Simple, ComponentB);
 
+    #[allow(dead_code)]
     #[derive(Bundle)]
     struct Record {
         field0: Simple,

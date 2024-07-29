@@ -589,6 +589,7 @@ impl<'w> UnsafeWorldCell<'w> {
     /// # Safety
     /// It is the callers responsibility to ensure that there are no outstanding
     /// references to `last_trigger_id`.
+    #[cfg(feature = "observers")]
     pub(crate) unsafe fn increment_trigger_id(self) {
         // SAFETY: Caller ensure there are no outstanding references
         unsafe { (*self.0).last_trigger_id += 1 }

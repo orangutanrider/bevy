@@ -123,6 +123,7 @@ pub struct World {
     pub(crate) change_tick: AtomicU32,
     pub(crate) last_change_tick: Tick,
     pub(crate) last_check_tick: Tick,
+    #[cfg(feature = "observers")]
     pub(crate) last_trigger_id: u32,
     pub(crate) command_queue: RawCommandQueue,
 }
@@ -144,6 +145,7 @@ impl Default for World {
             change_tick: AtomicU32::new(1),
             last_change_tick: Tick::new(0),
             last_check_tick: Tick::new(0),
+            #[cfg(feature = "observers")]
             last_trigger_id: 0,
             command_queue: RawCommandQueue::new(),
         };
@@ -2112,6 +2114,7 @@ impl World {
 
     /// Returns the id of the last ECS event that was fired.
     /// Used internally to ensure observers don't trigger multiple times for the same event.
+    #[cfg(feature = "observers")]
     #[inline]
     pub(crate) fn last_trigger_id(&self) -> u32 {
         self.last_trigger_id

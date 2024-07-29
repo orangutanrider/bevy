@@ -16,11 +16,14 @@ use crate::{
     prelude::World,
     query::DebugCheckedUnwrap,
     storage::{SparseSetIndex, SparseSets, Storages, Table, TableRow},
-    world::{unsafe_world_cell::UnsafeWorldCell, ON_ADD, ON_INSERT, ON_REPLACE},
+    world::unsafe_world_cell::UnsafeWorldCell,
 };
 
 #[cfg(feature = "observers")]
-use crate::observer::Observers;
+use crate::{
+    observer::Observers,
+    world::{ON_ADD, ON_INSERT, ON_REPLACE}
+};
 
 use bevy_ptr::{ConstNonNull, OwningPtr};
 use bevy_utils::{all_tuples, HashMap, HashSet, TypeIdMap};
