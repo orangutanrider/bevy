@@ -20,7 +20,7 @@ use crate::{
 };
 
 #[cfg(feature = "observers")]
-use crate::observers::Observers;
+use crate::observer::Observers;
 
 use bevy_ptr::{ConstNonNull, OwningPtr};
 use bevy_utils::{all_tuples, HashMap, HashSet, TypeIdMap};

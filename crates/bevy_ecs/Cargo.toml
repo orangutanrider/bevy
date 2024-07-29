@@ -14,7 +14,7 @@ rust-version = "1.77.0"
 trace = []
 multi_threaded = ["bevy_tasks/multi_threaded", "arrayvec"]
 bevy_debug_stepping = []
-default = ["bevy_reflect"]
+default = ["bevy_reflect", "observers"]
 serialize = ["dep:serde"]
 observers = []
 
