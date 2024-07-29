@@ -907,7 +907,6 @@ impl<'w> EntityWorldMut<'w> {
         };
 
         // SAFETY: all bundle components exist in World
-        #[cfg(feature = "observers")]
         unsafe {
             trigger_on_replace_and_on_remove_hooks_and_observers(
                 &mut deferred_world,
@@ -1090,7 +1089,6 @@ impl<'w> EntityWorldMut<'w> {
         };
 
         // SAFETY: all bundle components exist in World
-        #[cfg(feature = "observers")]
         unsafe {
             trigger_on_replace_and_on_remove_hooks_and_observers(
                 &mut deferred_world,
@@ -1228,9 +1226,10 @@ impl<'w> EntityWorldMut<'w> {
         };
 
         // SAFETY: All components in the archetype exist in world
-        #[cfg(feature = "observers")]
         unsafe {
             deferred_world.trigger_on_replace(archetype, self.entity, archetype.components());
+
+            #[cfg(feature = "observers")]
             if archetype.has_replace_observer() {
                 deferred_world.trigger_observers(
                     ON_REPLACE,
@@ -1239,6 +1238,8 @@ impl<'w> EntityWorldMut<'w> {
                 );
             }
             deferred_world.trigger_on_remove(archetype, self.entity, archetype.components());
+
+            #[cfg(feature = "observers")]
             if archetype.has_remove_observer() {
                 deferred_world.trigger_observers(
                     ON_REMOVE,
@@ -1444,7 +1445,6 @@ impl<'w> EntityWorldMut<'w> {
 }
 
 /// SAFETY: all components in the archetype must exist in world
-#[cfg(feature = "observers")]
 unsafe fn trigger_on_replace_and_on_remove_hooks_and_observers(
     deferred_world: &mut DeferredWorld,
     archetype: &Archetype,
@@ -1452,10 +1452,15 @@ unsafe fn trigger_on_replace_and_on_remove_hooks_and_observers(
     bundle_info: &BundleInfo,
 ) {
     deferred_world.trigger_on_replace(archetype, entity, bundle_info.iter_components());
+
+    #[cfg(feature = "observers")]
     if archetype.has_replace_observer() {
         deferred_world.trigger_observers(ON_REPLACE, entity, bundle_info.components());
     }
+
     deferred_world.trigger_on_remove(archetype, entity, bundle_info.iter_components());
+
+    #[cfg(feature = "observers")]
     if archetype.has_remove_observer() {
         deferred_world.trigger_observers(ON_REMOVE, entity, bundle_info.components());
     }

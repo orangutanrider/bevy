@@ -1205,7 +1205,6 @@ mod tests {
         }
     }
 
-    // Failing
     #[test]
     fn component_hook_order_spawn_despawn() {
         let mut world = World::new();
@@ -1222,7 +1221,6 @@ mod tests {
         assert_eq!(4, world.resource::<R>().0);
     }
 
-    // Failing
     #[test]
     fn component_hook_order_spawn_despawn_with_macro_hooks() {
         let mut world = World::new();
@@ -1234,7 +1232,6 @@ mod tests {
         assert_eq!(4, world.resource::<R>().0);
     }
 
-    // Failing
     #[test]
     fn component_hook_order_insert_remove() {
         let mut world = World::new();
@@ -1273,7 +1270,6 @@ mod tests {
         assert_eq!(2, world.resource::<R>().0);
     }
 
-    // Failing
     #[test]
     fn component_hook_order_recursive() {
         let mut world = World::new();
