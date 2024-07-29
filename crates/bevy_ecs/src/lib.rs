@@ -313,7 +313,7 @@ mod tests {
         assert!(world.despawn(e));
         assert_eq!(world.entities.len(), 1);
         assert!(world.get::<TableStored>(e).is_none());
-        assert!(world.get::<A>(e).is_none()); // Failing
+        assert!(world.get::<A>(e).is_none());
         assert_eq!(world.get::<TableStored>(f).unwrap().0, "def");
         assert_eq!(world.get::<A>(f).unwrap().0, 456);
     }
@@ -338,7 +338,7 @@ mod tests {
         let mut world = World::new();
         let e = world.spawn((TableStored("abc"), A(123))).id();
         let f = world.spawn((TableStored("def"), A(456))).id();
-        // Failing
+
         let ents = world
             .query::<(Entity, &A, &TableStored)>()
             .iter(&world)
